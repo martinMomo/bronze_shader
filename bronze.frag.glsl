@@ -33,10 +33,11 @@ vec4 ComputeLight (const in vec3 direction, const in vec4 lightcolor, const in v
   // A . B = |A| * |B| * cos0
   vec3 wRGB = vec3(1, 1, 1);
   vec3 pRGB = vec3(1, 2, 20);
-  vec3 refVal = 2 * normal * (normal * direction) - direction;
+  vec3 refVal = reflect(normal, direction);
   float angle = acos(dot(eyeVec, refVal)/(length(eyeVec)*length(refVal)));
 
-  vec3 cRGB = pow(wRGB * (cos(angle) + 1)/2, pRGB);
+  vec3 temp = vec3((cos(angle) + 1)/2);
+  vec3 cRGB = wRGB * pow(temp, pRGB);
   vec4 color = vec4(cRGB, 1.0);
   vec4 retval = lambert + phong + color;
   return retval;
